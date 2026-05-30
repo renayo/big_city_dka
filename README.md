@@ -206,6 +206,6 @@ MIT. See LICENSE.
 If you use this code or results in published research:
 
 ```
-Oshop, R. (2025). jyotish-birth-timing: Yoga prevalence under empirically distinct
-birth-time distributions. GitHub. https://github.com/your-username/jyotish-birth-timing
+Oshop, R. (2026). jyotish-birth-timing: Yoga prevalence under empirically distinct
+birth-time distributions. GitHub. https://github.com/renayo/big_city_dka
 ```
