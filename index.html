@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Jyotish Birth Timing Research</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f0f0d;
+  --bg1:#131210;
+  --bg2:#181614;
+  --border:#1e1c18;
+  --border2:#252018;
+  --text:#c0b8b0;
+  --text2:#6a6058;
+  --text3:#3a3530;
+  --accent:#b89848;
+  --accent2:#9a6050;
+  --accent3:#4a7090;
+  --red:#9a6050;
+  --blue:#4a7090;
+  --sig:#c8a560;
+}
+html{font-size:15px}
+body{background:var(--bg);color:var(--text);font-family:'Spectral',Georgia,serif;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#222}
+
+.page{max-width:1080px;margin:0 auto;padding:36px 22px 72px}
+
+/* Header */
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+h1.title{font-size:clamp(20px,3.5vw,32px);font-weight:600;color:#e0d8d0;margin-bottom:10px;line-height:1.2}
+.subtitle{font-size:14px;color:var(--text2);line-height:1.7;max-width:680px;font-style:italic;
+  margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+
+/* Finding */
+.finding{background:var(--bg1);border:1px solid var(--border2);border-left:3px solid var(--accent);
+  border-radius:3px;padding:16px 20px;margin-bottom:28px;font-size:13.5px;
+  line-height:1.75;color:#a09890}
+.finding strong{color:#e0d8d0}
+.finding .label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+
+/* Tabs */
+.tabs{display:flex;gap:3px;margin-bottom:22px;flex-wrap:wrap}
+.tab{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+  padding:6px 15px;border-radius:2px;cursor:pointer;border:1px solid transparent;
+  background:transparent;color:var(--text3);transition:all .15s}
+.tab:hover{color:var(--text2);border-color:var(--border)}
+.tab.on{background:var(--bg2);color:var(--text);border-color:#2a2820}
+
+/* Cards */
+.card{background:var(--bg1);border:1px solid var(--border);border-radius:3px;padding:22px;margin-bottom:14px}
+.card-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+/* Pill row */
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.pill{background:var(--bg1);border:1px solid var(--border);border-radius:3px;padding:14px 18px}
+.pill-name{font-size:13px;font-weight:600;margin-bottom:5px}
+.pill-stats{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);line-height:2}
+.pill-stats span{color:var(--text)}
+.pill-note{font-size:11px;color:#2a2820;margin-top:5px;font-style:italic}
+
+/* Two col */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:640px){.two-col,.pills{grid-template-columns:1fr}}
+
+/* SVG charts */
+.chart-outer{width:100%;overflow:hidden;position:relative}
+svg.chart{width:100%;height:auto;display:block}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text3);font-weight:500;text-align:right;padding:7px 10px 5px;border-bottom:1px solid var(--border)}
+th:first-child{text-align:left}
+td{padding:8px 10px;border-bottom:1px solid #131210;color:var(--text2);text-align:right;
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+td:first-child{text-align:left;font-family:'Spectral',serif;font-size:13px;color:var(--text);font-style:italic}
+td.nd{color:var(--text3)}
+tr.sig-row{background:#151208}
+tr.sig-row td:first-child{color:#e0d8d0;font-weight:600}
+tr.sig-row td.sv{color:var(--sig);font-weight:600}
+
+/* Stat boxes */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+@media(max-width:640px){.stat-row{grid-template-columns:1fr 1fr}}
+.stat-box{background:#111;border:1px solid var(--border);border-radius:3px;padding:13px 15px}
+.stat-v{font-size:21px;font-weight:600;margin-bottom:3px}
+.stat-l{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);line-height:1.55}
+
+/* Mechanism */
+.mech{background:#100f0a;border:1px solid #1e1a0e;border-left:3px solid #3a3010;
+  border-radius:3px;padding:16px 20px;font-size:13px;color:#5a5040;line-height:1.85;margin-top:14px}
+.mech strong{color:var(--accent)}
+
+/* Source note */
+.src{font-size:11px;color:var(--text3);line-height:1.8;margin-top:12px;font-style:italic}
+
+footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--border);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);
+  text-align:center;line-height:2}
+footer a{color:#3a3530;text-decoration:none}
+footer a:hover{color:#6a6058}
+
+/* Panel hide */
+.panel{display:none}.panel.on{display:block}
+</style>
+</head>
+<body>
+<div class="page" id="app" style="opacity:0;transition:opacity .4s">
+
+<div class="eyebrow">Jyotish Statistical Research · N = 10,000 births/group · Lahiri Ayanamsha · Whole-Sign Houses</div>
+<h1 class="title">Birth Timing &amp; Yoga Prevalence</h1>
+<p class="subtitle">Does the empirical difference in birth-hour distributions between large urban hospitals (high obstetric intervention) and small-town hospitals (biological circadian rhythm) produce detectable differences in Jyotish yoga rates?</p>
+
+<div class="finding">
+  <div class="label">Key finding</div>
+  <strong>Panchamahapurusha yogas: no significant difference</strong> — planetary-cycle dominance overwhelms the birth-time effect.
+  <strong> Dharma Karmadhipati yogas: three conditions are highly significant</strong> after Bonferroni correction (omnibus χ²=47.34, p&lt;0.001).
+  Large-city daytime birth clustering systematically raises rates of sign-exchange, own-house, and 9th/10th conjunction conditions.
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="show('dist')">Input Distributions</button>
+  <button class="tab" onclick="show('lagna')">Lagna Analysis</button>
+  <button class="tab" onclick="show('maha')">Panchamahapurusha</button>
+  <button class="tab" onclick="show('dk')">Dharma Karmadhipati</button>
+</div>
+
+<!-- ── DISTRIBUTIONS ───────────────────────────────────────────────────── -->
+<div class="panel on" id="p-dist">
+  <div class="pills">
+    <div class="pill" style="border-left:3px solid var(--red)">
+      <div class="pill-name" style="color:#c87860">Large City (high-intervention)</div>
+      <div class="pill-stats">
+        Peak hour: <span>08:00</span> · Daytime 6am–6pm: <span>73.6%</span><br>
+        Overnight 0–5am: <span>9.3%</span> · Weekday Mon–Fri: <span>78.5%</span>
+      </div>
+      <div class="pill-note">8am peak: elective CS scheduling. 12pm peak: induced labour completing.</div>
+    </div>
+    <div class="pill" style="border-left:3px solid var(--blue)">
+      <div class="pill-name" style="color:#6898b8">Small Town (biological circadian)</div>
+      <div class="pill-stats">
+        Peak hour: <span>04:00</span> · Daytime 6am–6pm: <span>45.1%</span><br>
+        Overnight 0–5am: <span>30.3%</span> · Weekday Mon–Fri: <span>72.7%</span>
+      </div>
+      <div class="pill-note">Biological circadian peak 3–5am. Near-flat across days of week.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Hourly birth probability — % of daily births</div>
+      <div class="chart-outer" id="hourly-chart"></div>
+      <div class="src">
+        <span style="color:var(--red)">●</span> Large city &nbsp;
+        <span style="color:var(--blue)">●</span> Small town &nbsp; | &nbsp;
+        dashed lines = 6am / 6pm
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Day-of-week multiplier — 1.0 = weekly mean</div>
+      <div class="chart-outer" id="dow-chart"></div>
+      <div class="src">Large city Sunday: 0.72× (−28%). Small town Sunday: 0.96× (−4%). Difference from scheduled procedures.</div>
+    </div>
+  </div>
+  <div class="src">Sources: NCHS Data Brief 200 (CDC 2015) · Morita et al. 2002, J Epidemiol (Japan, 1.2M births) · Macfarlane &amp; Martin 2018, PLoS ONE (England NHS, 5M births) · Montana VSU 2017</div>
+</div>
+
+<!-- ── LAGNA ───────────────────────────────────────────────────────────── -->
+<div class="panel" id="p-lagna">
+  <div class="card">
+    <div class="card-title">Sidereal Lagna sign distribution — χ²=9.74 &nbsp; p=0.554 &nbsp; not significant</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:18px;font-style:italic;line-height:1.7">
+      Despite a 16-hour difference in mean birth time between groups, Lagna profiles are statistically
+      indistinguishable at N=10,000. The 12-sign averaging absorbs the distributional effect.
+    </p>
+    <div class="chart-outer" id="lagna-chart"></div>
+  </div>
+  <div class="mech">
+    <strong>Why is Lagna not significantly different?</strong> The Ascendant depends on sidereal time at the birth location — which part of the sky is rising at that moment. Large-city births cluster in daytime hours, over-representing signs that rise during the day at US mid-latitudes. But because all 12 signs rise once every 24 hours, even a heavily daytime-skewed distribution still produces a recognizable spread across all signs. At N=10,000, chi-square cannot distinguish the slight frequency differences.
+  </div>
+</div>
+
+<!-- ── MAHA ────────────────────────────────────────────────────────────── -->
+<div class="panel" id="p-maha">
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-v">6.79</div><div class="stat-l">Omnibus χ²<br>5-yoga profile</div></div>
+    <div class="stat-box"><div class="stat-v">0.237</div><div class="stat-l">p-value<br>not significant</div></div>
+    <div class="stat-box"><div class="stat-v">0</div><div class="stat-l">Bonferroni-significant<br>yogas</div></div>
+    <div class="stat-box"><div class="stat-v">≈40%</div><div class="stat-l">Any yoga present<br>both groups equal</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Results — Bonferroni α = 0.05 / 6 = 0.0083</div>
+    <table>
+      <thead><tr>
+        <th>Yoga</th><th>Planet</th>
+        <th>Large %</th><th>Small %</th><th>Δ %</th>
+        <th>χ²</th><th>p</th><th>OR</th><th>Sig.</th>
+      </tr></thead>
+      <tbody id="maha-tbody"></tbody>
+    </table>
+  </div>
+  <div class="mech">
+    <strong>Why no effect?</strong> Panchamahapurusha yogas require a planet in its own or exalted sign AND in a kendra from the Lagna. Yoga presence is determined almost entirely by the planet's current sidereal sign — a slow position set by calendar date alone (Jupiter: 12-year cycle; Saturn: 29.5-year cycle). Changing the birth-hour distribution shifts the Lagna distribution, but since all 12 Lagna signs still appear in both groups and planetary signs are identical on any given date, the yoga rate is effectively unchanged.
+  </div>
+</div>
+
+<!-- ── DK ─────────────────────────────────────────────────────────────── -->
+<div class="panel" id="p-dk">
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-v" style="color:var(--sig)">47.34</div><div class="stat-l">Omnibus χ²<br>★ p &lt; 0.001</div></div>
+    <div class="stat-box"><div class="stat-v" style="color:var(--sig)">3 of 7</div><div class="stat-l">Bonferroni-significant<br>conditions</div></div>
+    <div class="stat-box"><div class="stat-v">1.50×</div><div class="stat-l">Median OR<br>significant conditions</div></div>
+    <div class="stat-box"><div class="stat-v">Large</div><div class="stat-l">Higher rates in<br>big-city group</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Results — Bonferroni α = 0.05 / 7 = 0.0071</div>
+    <table>
+      <thead><tr>
+        <th>Condition</th>
+        <th>Large %</th><th>Small %</th><th>Δ %</th>
+        <th>χ²</th><th>p raw</th><th>p Bonf.</th><th>OR</th><th>Sig.</th>
+      </tr></thead>
+      <tbody id="dk-tbody"></tbody>
+    </table>
+  </div>
+  <div class="mech">
+    <strong>Mechanism.</strong> Large-city births cluster in daytime hours (73.6% between 6am and 6pm). At US mid-latitudes (~30–42°N), the signs Cancer through Sagittarius rise primarily during daylight hours. This over-represents those six signs as the Lagna in the large-city group, shifting which signs become the 9th and 10th houses and therefore where their lords tend to fall.<br><br>
+    The Exchange, Own Houses, and Conjunction conditions are sensitive to whether a lord falls in a specific sign (the 9th or 10th). When those houses are systematically biased toward certain signs, the likelihood of exact positional alignment changes. Broader conditions — Conjunction Anywhere and Mutual Aspect — are not sign-specific in the same way and show no effect.<br><br>
+    <strong>Implication for Jyotish research.</strong> Celebrity and notable-person birth data skews strongly toward large urban hospitals. Any study comparing Dharma Karmadhipati yoga rates between a celebrity sample and a general-population baseline must account for the birth-time distribution difference. This is a previously uncharacterized confound.
+  </div>
+</div>
+
+<footer>
+  Simulation: pyswisseph · SciPy · NumPy &nbsp;·&nbsp;
+  Distributions: NCHS, Morita 2002, Macfarlane 2018 &nbsp;·&nbsp;
+  Ayanamsha: Lahiri &nbsp;·&nbsp;
+  <a href="https://github.com/your-username/jyotish-birth-timing" target="_blank" rel="noreferrer">GitHub repository</a>
+</footer>
+</div><!-- .page -->
+
+<script>
+// ── Tab switching ─────────────────────────────────────────────────────────────
+const PANELS = {dist:'p-dist',lagna:'p-lagna',maha:'p-maha',dk:'p-dk'};
+function show(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(PANELS[id]).classList.add('on');
+  event.target.classList.add('on');
+  if(id==='lagna' && !document.getElementById('lagna-chart').dataset.drawn) drawLagna();
+}
+
+// ── Tiny SVG chart helpers ────────────────────────────────────────────────────
+function mkSVG(w,h) {
+  const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  s.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  s.setAttribute('class','chart');
+  return s;
+}
+function line(svg, pts, color, w=2) {
+  const p = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+  p.setAttribute('points', pts.map(([x,y])=>`${x},${y}`).join(' '));
+  p.setAttribute('fill','none');
+  p.setAttribute('stroke',color);
+  p.setAttribute('stroke-width',w);
+  p.setAttribute('stroke-linejoin','round');
+  svg.appendChild(p);
+}
+function txt(svg,x,y,s,color,size=9,anchor='middle') {
+  const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('fill',color);
+  t.setAttribute('font-size',size);t.setAttribute('text-anchor',anchor);
+  t.setAttribute('font-family',"'IBM Plex Mono',monospace");
+  t.textContent=s; svg.appendChild(t);
+}
+function gridLine(svg,x1,y1,x2,y2,color='#1a1816',dash='') {
+  const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',x1);l.setAttribute('y1',y1);
+  l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+  l.setAttribute('stroke',color);l.setAttribute('stroke-width','1');
+  if(dash) l.setAttribute('stroke-dasharray',dash);
+  svg.appendChild(l);
+}
+function rect(svg,x,y,w,h,fill,opacity=1) {
+  const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);
+  r.setAttribute('fill',fill);r.setAttribute('opacity',opacity);
+  svg.appendChild(r);
+}
+
+// ── Hourly chart ──────────────────────────────────────────────────────────────
+const LARGE_H = [1.8,1.5,1.3,1.2,1.3,1.8,2.8,4.5,9.2,8.1,6.0,5.5,7.8,6.5,5.8,5.3,4.8,4.2,3.8,3.4,3.0,2.6,2.2,1.9];
+const SMALL_H = [4.8,5.2,5.6,5.9,5.7,5.2,4.7,4.3,3.9,3.6,3.5,3.7,3.8,3.9,4.0,4.0,4.0,4.1,4.2,4.1,4.1,4.2,4.4,4.7];
+const sumL = LARGE_H.reduce((a,b)=>a+b,0), sumS = SMALL_H.reduce((a,b)=>a+b,0);
+const LD = LARGE_H.map(v=>v/sumL*100), SD = SMALL_H.map(v=>v/sumS*100);
+
+(function drawHourly() {
+  const W=560,H=200,ml=38,mr=12,mt=8,mb=24;
+  const cw=W-ml-mr, ch=H-mt-mb;
+  const xmax=23, ymax=11;
+  const svg=mkSVG(W,H);
+  // grid
+  [0,2,4,6,8,10].forEach(v=>{
+    const y=mt+ch*(1-v/ymax);
+    gridLine(svg,ml,y,ml+cw,y);
+    txt(svg,ml-4,y+3,v+'%','#2e2c28',8,'end');
+  });
+  // 6am / 6pm dashes
+  [6,18].forEach(h=>{
+    const x=ml+cw*h/xmax;
+    gridLine(svg,x,mt,x,mt+ch,'#202018','3 4');
+  });
+  // x labels
+  [0,4,8,12,16,20].forEach(h=>{
+    const lbl=h===0?'12a':h<12?h+'a':h===12?'12p':(h-12)+'p';
+    txt(svg,ml+cw*h/xmax,H-6,lbl,'#2e2c28',8);
+  });
+  // lines
+  const pts=i=>[ml+cw*i/xmax, mt+ch*(1-LD[i]/ymax)];
+  const ptss=i=>[ml+cw*i/xmax, mt+ch*(1-SD[i]/ymax)];
+  line(svg,Array.from({length:24},(_,i)=>pts(i)),'#9a6050',2);
+  line(svg,Array.from({length:24},(_,i)=>ptss(i)),'#4a7090',2);
+  document.getElementById('hourly-chart').appendChild(svg);
+})();
+
+// ── DOW chart ─────────────────────────────────────────────────────────────────
+(function drawDOW() {
+  const W=560,H=180,ml=46,mr=12,mt=8,mb=24;
+  const cw=W-ml-mr, ch=H-mt-mb;
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const DL=[1.07,1.12,1.13,1.11,1.09,0.83,0.72];
+  const DS=[1.02,1.02,1.03,1.03,1.02,0.96,0.96];
+  const ymin=0.65, ymax=1.20, yrng=ymax-ymin;
+  const svg=mkSVG(W,H);
+  [0.70,0.80,0.90,1.00,1.10,1.20].forEach(v=>{
+    const y=mt+ch*(1-(v-ymin)/yrng);
+    gridLine(svg,ml,y,ml+cw,y, v===1.0?'#2a2820':'#1a1816');
+    txt(svg,ml-4,y+3,v.toFixed(2)+'×','#2e2c28',8,'end');
+  });
+  const step=cw/6;
+  days.forEach((d,i)=>{
+    const x=ml+i*step+step/2;
+    txt(svg,x,H-6,d,'#2e2c28',9);
+    const yL=mt+ch*(1-(DL[i]-ymin)/yrng);
+    const yS=mt+ch*(1-(DS[i]-ymin)/yrng);
+    // dots
+    ['circle'].forEach(_=>{
+      [['#9a6050',yL],['#4a7090',yS]].forEach(([c,y])=>{
+        const ci=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        ci.setAttribute('cx',x);ci.setAttribute('cy',y);ci.setAttribute('r',4);
+        ci.setAttribute('fill',c);svg.appendChild(ci);
+      });
+    });
+  });
+  // connecting lines
+  const ptsL=days.map((_,i)=>[ml+i*step+step/2, mt+ch*(1-(DL[i]-ymin)/yrng)]);
+  const ptsS=days.map((_,i)=>[ml+i*step+step/2, mt+ch*(1-(DS[i]-ymin)/yrng)]);
+  line(svg,ptsL,'#9a6050',2);line(svg,ptsS,'#4a7090',2);
+  document.getElementById('dow-chart').appendChild(svg);
+})();
+
+// ── Lagna chart (drawn lazily) ────────────────────────────────────────────────
+function drawLagna() {
+  const signs=['Aries','Tau','Gem','Can','Leo','Vir','Lib','Sco','Sag','Cap','Aqu','Pis'];
+  const LD=[5.73,8.15,9.57,10.41,10.02,10.69,10.62,9.90,8.27,5.97,5.35,5.32];
+  const SD=[5.51,8.01,9.54,10.72,10.24,10.17,10.95,9.82,8.57,6.59,4.92,4.96];
+  const W=760,H=220,ml=36,mr=12,mt=8,mb=28;
+  const cw=W-ml-mr, ch=H-mt-mb;
+  const n=12, bw=cw/n, bw2=bw*0.38, ymax=13;
+  const svg=mkSVG(W,H);
+  [0,3,6,9,12].forEach(v=>{
+    const y=mt+ch*(1-v/ymax);
+    gridLine(svg,ml,y,ml+cw,y);
+    txt(svg,ml-4,y+3,v+'%','#2e2c28',8,'end');
+  });
+  signs.forEach((s,i)=>{
+    const cx=ml+i*bw+bw/2;
+    rect(svg,cx-bw2-1,mt+ch*(1-LD[i]/ymax),bw2,ch*(LD[i]/ymax),'#9a6050',0.85);
+    rect(svg,cx+1,mt+ch*(1-SD[i]/ymax),bw2,ch*(SD[i]/ymax),'#4a7090',0.7);
+    txt(svg,cx,H-6,s,'#2e2c28',8);
+  });
+  const el=document.getElementById('lagna-chart');
+  el.appendChild(svg);
+  el.dataset.drawn='1';
+}
+
+// ── Table data ────────────────────────────────────────────────────────────────
+const MAHA = [
+  ['Ruchaka','Mars',8.84,8.62,0.304,'0.582',1.028,false],
+  ['Bhadra','Mercury',5.73,5.80,0.045,'0.832',0.987,false],
+  ['Hamsa','Jupiter',9.40,9.16,0.342,'0.559',1.029,false],
+  ['Malavya','Venus',9.86,10.62,3.142,'0.076',0.921,false],
+  ['Sasa','Saturn',13.86,14.57,2.067,'0.151',0.943,false],
+  ['Any','—',40.32,41.45,2.642,'0.104',0.954,false],
+];
+const DK = [
+  ['Exchange',0.80,0.47,8.630,'0.003','0.023',1.700,true],
+  ['Own Houses',2.29,1.54,14.973,'<0.001','<0.001',1.497,true],
+  ['Conjunction',5.57,4.14,22.134,'<0.001','<0.001',1.365,true],
+  ['Conj. Anywhere',22.93,22.78,0.064,'0.801','1.000',1.009,false],
+  ['Mutual Aspect',4.97,5.00,0.009,'0.922','1.000',0.994,false],
+  ['DK Any',30.99,29.79,3.404,'0.065','0.455',1.058,false],
+  ['DK Pure',28.52,27.94,0.830,'0.362','1.000',1.029,false],
+];
+
+function fillTable(tbodyId, rows, isMaha) {
+  const tb=document.getElementById(tbodyId);
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    const sig=isMaha?r[7]:r[7];
+    if(sig) tr.className='sig-row';
+    const delta=(r[2]-r[3]).toFixed(2);
+    const cells=isMaha
+      ? [r[0],r[1],r[2].toFixed(2)+'%',r[3].toFixed(2)+'%',
+         (delta>0?'+':'')+delta+'%',r[4].toFixed(3),r[5],r[6].toFixed(3),'—']
+      : [r[0],r[1].toFixed(2)+'%',r[2].toFixed(2)+'%',
+         (delta>0?'+':'')+delta+'%',r[3].toFixed(3),r[4],r[5],r[6].toFixed(3),sig?'✓':'—'];
+    cells.forEach((c,i)=>{
+      const td=document.createElement('td');
+      td.textContent=c;
+      if(i===0) td.style.cssText='text-align:left;font-family:Spectral,serif;font-size:13px;color:var(--text);font-style:italic';
+      if(sig && ((!isMaha&&(i===4||i===5||i===6))||(isMaha&&i===6))) td.className='sv';
+      if(c==='—'||c==='0.582'||c==='0.832'||c==='0.559'||c==='0.076'||c==='0.151'||c==='0.104')
+        td.style.color='var(--text3)';
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+}
+fillTable('maha-tbody',MAHA,true);
+fillTable('dk-tbody',DK,false);
+
+// ── Reveal ────────────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{ document.getElementById('app').style.opacity='1'; });
+</script>
+</body>
+</html>
