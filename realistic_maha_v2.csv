@@ -1,0 +1,7 @@
+Yoga,col,Large_n,Large_%,Small_n,Small_%,Chi2,p_raw,p_bonf,OR,OR_CI_lo,OR_CI_hi,Cohen_h,sig_raw,sig_bonf
+Ruchaka,maha_Ruchaka,884,8.84,862,8.62,0.3037,0.581560,1.000000,1.028,0.9319,1.134,0.0078,False,False
+Bhadra,maha_Bhadra,573,5.73,580,5.8,0.0451,0.831824,1.000000,0.9872,0.8766,1.1118,-0.003,False,False
+Hamsa,maha_Hamsa,940,9.4,916,9.16,0.3421,0.558625,1.000000,1.0289,0.9352,1.132,0.0083,False,False
+Malavya,maha_Malavya,986,9.86,1062,10.62,3.1421,0.076297,0.457784,0.9206,0.8402,1.0088,-0.0251,False,False
+Sasa,maha_Sasa,1386,13.86,1457,14.57,2.0669,0.150523,0.903138,0.9434,0.8714,1.0214,-0.0203,False,False
+any,maha_any,4032,40.32,4145,41.45,2.6416,0.104099,0.624596,0.9543,0.902,1.0097,-0.023,False,False
